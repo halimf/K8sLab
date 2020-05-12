@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: hackazon.vs
+  namespace: hackazon
+  annotations:
+    # See the k8s-bigip-ctlr documentation for information about
+    # all Ingress Annotations
+    # https://clouddocs.f5.com/products/connectors/k8s-bigip-ctlr/latest/#supported-ingress-annotations
+    virtual-server.f5.com/ip: "10.1.10.102"
+    virtual-server.f5.com/http-port: "80"
+    virtual-server.f5.com/balance: "least-connections-node"
+    virtual-server.f5.com/partition: "kube_AS3"
+    virtual-server.f5.com/health: '[{"path": "klark.f5.halimfadhli.com/", "send": "HTTP GET /", "interval": 5, "timeout": 16}]'
+spec:
+  rules:
+  - host: klark.f5.halimfadhli.com
+    http:
+      # path to Service from URL
+      paths:
+        - path: /
+          backend:
+            serviceName: hackazon
+            servicePort: 8081
