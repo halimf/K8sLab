@@ -1,0 +1,25 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+ name: hackazon
+ namespace: hackazon
+spec:
+ replicas: 2
+ selector:
+   matchLabels:
+     app: hackazon
+ template:
+   metadata:
+     labels:
+       app: hackazon
+   spec:
+     containers:
+     - env:
+       - name: service_name
+         value: hackazon
+       image: ianwijaya/hackazon:latest
+       imagePullPolicy: Always
+       name: hackazon
+       ports:
+       - containerPort: 80
+         protocol: TCP
