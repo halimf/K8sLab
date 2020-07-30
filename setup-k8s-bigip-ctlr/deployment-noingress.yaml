@@ -47,7 +47,8 @@ spec:
             "--bigip-partition=kube",
             "--pool-member-type=cluster",
             "--insecure=true",
-            "--agent=as3"
+            "--agent=as3",
+            "--manage-ingress=false"
             ]
       imagePullSecrets:
         # Secret that gives access to a private docker registry

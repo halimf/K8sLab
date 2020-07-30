@@ -1,0 +1,24 @@
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: nginx-test.vs
+  namespace: default
+  annotations:
+    # See the k8s-bigip-ctlr documentation for information about
+    # all Ingress Annotations
+    # https://clouddocs.f5.com/products/connectors/k8s-bigip-ctlr/latest/#supported-ingress-annotations
+    virtual-server.f5.com/ip: "10.1.10.102"
+    virtual-server.f5.com/http-port: "80"
+    virtual-server.f5.com/balance: "least-connections-node"
+    virtual-server.f5.com/partition: "kube"
+    virtual-server.f5.com/health: '[{"path": "www.f5.halimfadhli.com/", "send": "HTTP GET /", "interval": 5, "timeout": 16}]'
+spec:
+  rules:
+  - host: www.f5.halimfadhli.com
+    http:
+      # path to Service from URL
+      paths:
+        - path: /
+          backend:
+            serviceName: nginx-test
+            servicePort: 8080

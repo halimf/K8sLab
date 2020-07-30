@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+ name: nginx-test
+ namespace: default
+ labels:
+   app: nginx-test
+spec:
+ ports:
+ - name: nginx-test
+   port: 8080
+   protocol: TCP
+   targetPort: 80
+ type: NodePort
+ selector:
+  app: nginx-test
